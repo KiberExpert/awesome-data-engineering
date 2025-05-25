@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: users
+    columns:
+      - name: email
+        tests:
+          - not_null

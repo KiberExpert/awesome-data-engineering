@@ -1,0 +1,11 @@
+user_microservice:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: maks1904
+      port: 5432
+      dbname: user_service
+      schema: public
