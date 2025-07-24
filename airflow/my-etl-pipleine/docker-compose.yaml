@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  sleek-airflow:
+    build: .
+    image: apache/airflow:latest
+    container_name: apache-airflow
+    volumes:
+      - ./airflow:/opt/airflow
+    ports:
+      - "8080:8080"
+    command: airflow standalone
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - PYTHONPATH=/opt/airflow
+    restart: unless-stopped

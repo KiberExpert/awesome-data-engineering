@@ -1,0 +1,13 @@
+services:
+  sleek-airflow:
+    build: .
+    image: apache/airflow:latest
+    container_name: sleek-airflow
+    volumes:
+      - ./airflow:/opt/airflow
+    ports:
+      - "8080:8080"
+    command: airflow standalone
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    restart: unless-stopped
