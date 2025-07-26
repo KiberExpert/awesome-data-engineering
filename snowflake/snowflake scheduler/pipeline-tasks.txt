@@ -1,0 +1,60 @@
+use  airflow_pipeline.silver;
+
+CREATE OR REPLACE TASK task_1_insert_time_table
+WAREHOUSE = COMPUTE_WH
+SCHEDULE = '1 MINUTE'
+AS
+insert into silver_time_dim(name)
+select 
+O_ORDERDATE
+from snowflake_sample_data.tpch_sf1.orders
+group by O_ORDERDATE;
+
+CREATE OR REPLACE TASK task_2_insert_orderstatus_table
+WAREHOUSE = COMPUTE_WH
+AFTER task_1_insert_time_table
+AS
+insert into silver_orderstatus_dim(name)
+select 
+O_ORDERSTATUS
+from snowflake_sample_data.tpch_sf1.orders
+group by O_ORDERSTATUS;
+
+CREATE OR REPLACE TASK task_3_insert_orders_table
+WAREHOUSE = COMPUTE_WH
+AFTER task_2_insert_orderstatus_table
+AS
+insert into silver_orders(O_ORDERKEY, O_CUSTKEY, O_ORDERSTATUS, O_ORDERDATE, O_ORDERPRIORITY, O_CLERK, O_SHIPPRIORITY, O_COMMENT, O_TOTALPRICE)
+    select 
+        rd.O_ORDERKEY,
+        rd.O_CUSTKEY,
+        st.id,
+        tm.id,
+        rd.O_ORDERPRIORITY,
+        rd.O_CLERK,
+        rd.O_SHIPPRIORITY,
+        rd.O_COMMENT,
+        rd.O_TOTALPRICE
+    from snowflake_sample_data.tpch_sf1.orders rd 
+        inner join airflow_pipeline.silver.silver_time_dim tm on rd.O_ORDERDATE = tm.name
+        inner join airflow_pipeline.silver.silver_orderstatus_dim st on rd.O_ORDERSTATUS = st.name
+        left join airflow_pipeline.silver.silver_orders rs on rd.O_ORDERKEY = rs.O_ORDERKEY
+    where rs.O_ORDERKEY is null;
+
+CREATE NOTIFICATION INTEGRATION my_email_int
+  TYPE = EMAIL
+  ENABLED = TRUE
+  ALLOWED_RECIPIENTS = ('khamidovmaqsudjon@gmail.com');
+
+CREATE ALERT send_email_after_task3
+  WAREHOUSE = COMPUTE_WH
+  SCHEDULE = 'USING CRON 0 * * * * UTC'
+  IF (EXISTS (SELECT 1 FROM demo_db.etl_schema.final_table))
+  THEN
+    CALL SYSTEM$SEND_EMAIL(
+        'my_email_int',
+        'khamidovmaqsudjon@gmail.com',
+        'Snowflake Task Completed',
+        'All 3 tasks finished successfully and data is written to final_table.'
+    );
+
