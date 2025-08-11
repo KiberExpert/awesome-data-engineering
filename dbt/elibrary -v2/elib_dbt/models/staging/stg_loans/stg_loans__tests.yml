@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: stg_loans__source
+    columns:
+      - name: loan_id
+        tests:
+          - not_null
+          - unique

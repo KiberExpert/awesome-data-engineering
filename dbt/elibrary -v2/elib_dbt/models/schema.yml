@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: elib_source
+    database: elib_db
+    schema: public
+    tables:
+      - name: books
+      - name: authors
+      - name: users
+      - name: loans

@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: stg_books__source
+    columns:
+      - name: book_id
+        tests:
+          - not_null
+          - unique

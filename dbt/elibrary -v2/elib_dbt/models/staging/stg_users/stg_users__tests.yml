@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: stg_users__source
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
