@@ -28,12 +28,8 @@
 5. **Verify the Deployment**
    Open your **GCP Console** and confirm the following resources were created:
 
-   * ☁ Google Storage Bucket
-   * ⏰ Cloud Scheduler Job
-   * 🛠 Cloud Run Service
-   * 📦 Container Registry
-   * 🔑 IAM Role Bindings
-
-```
-
-```
+   * Google Storage Bucket
+   * Cloud Scheduler Job
+   * Cloud Run Service
+   * Container Registry
+   * IAM Role Bindings
