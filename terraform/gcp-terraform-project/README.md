@@ -1,33 +1,39 @@
-Here’s a short README run section you can use:
-
-## Deployment Steps
+````md
+## 🚀 Deployment Steps
 
 1. **Clone the Repository**
    ```bash
    git clone <your-repo-url>
    cd <your-repo-folder>
-Initialize Terraform
+````
+
+2. **Initialize Terraform**
 
    ```bash
    terraform init
-   Review the Plan
+   ```
+
+3. **Review the Execution Plan**
 
    ```bash
    terraform plan
-   Apply the Configuration
+   ```
+
+4. **Apply the Configuration**
 
    ```bash
    terraform apply
-   
-Confirm the Resources
-Check your GCP Console to verify the created resources:
+   ```
 
-Google Storage Bucket
+5. **Verify the Deployment**
+   Open your **GCP Console** and confirm the following resources were created:
 
-Cloud Scheduler Job
+   * ☁ Google Storage Bucket
+   * ⏰ Cloud Scheduler Job
+   * 🛠 Cloud Run Service
+   * 📦 Container Registry
+   * 🔑 IAM Role Bindings
 
-Cloud Run Service
+```
 
-Container Registry
-
-IAM Role Bindings
+```
