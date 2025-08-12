@@ -8,16 +8,17 @@ Here’s a short README run section you can use:
    cd <your-repo-folder>
 Initialize Terraform
 
-bash
-terraform init
-Review the Plan
+   ```bash
+   terraform init
+   Review the Plan
 
-bash
-terraform plan
-Apply the Configuration
+   ```bash
+   terraform plan
+   Apply the Configuration
 
-bash
-terraform apply
+   ```bash
+   terraform apply
+   
 Confirm the Resources
 Check your GCP Console to verify the created resources:
 
